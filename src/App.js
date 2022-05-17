@@ -7,34 +7,44 @@ function App() {
   const [pokemon, setPokemon] = useState([]);
   const [search, setSearch] = useState('char');
 
-  async function load() {
-    const data = getPokemon(search);
+  // async function load() {
+  //   //console.log(search); //eslint-disable-line
+  //   const data = await getPokemon(search);
 
-    setPokemon(data);
-  }
+    
+  //   //console.log(data, 2); //eslint-disable-line
+  //   return data;
+  // }
 
   useEffect(() => {
-    load();
-  }, []); // eslint-disable-line
+    const fetchPokemon = async () => {
+      const data = await getPokemon(search);
+  
+      if (data) {
+        setPokemon(data);
+      }
+    };
+  
+    fetchPokemon();
+  }, [search]);
 
-  async function handleSearch(e) {
-    e.preventDefault();
+  // function handleSearch(e) {
+  //   e.preventDefault();
 
-    load();
-  }
+  
+  // }
 
 
-
+  //console.log(pokemon); //eslint-disable-line
   return (
     <div className="App">
-      <form onSubmit={handleSearch}>
-        <input onChange={e => setSearch(e.target.value)}/>
-        <button>Search</button>
+      <form >
+        <input value={search} onChange={e => setSearch(e.target.value)}/>
       </form>
       <header className="App-header">
-        {pokemon.map(({ pokemon, weight }, i) => <div key={pokemon + i}>
-          <h2>{pokemon}</h2>
-          <p>weight: {weight}</p>
+        {pokemon.map((p, i) => <div key={i}>
+          <h2>{p.pokemon}</h2>
+          <p>weight: {p.weight}</p>
         </div>)}
       </header>
     </div>

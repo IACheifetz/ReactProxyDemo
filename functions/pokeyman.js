@@ -10,7 +10,8 @@ const headers = {
 
 exports.handler = async (event, context) => {
   try {
-    const response = await fetch(`https://pokedex-alchemy.herokuapp.com/api/pokedex?pokemon${event.queryStringParameters.pokemon}`);
+    console.log(event.queryStringParameters); //eslint-disable-line
+    const response = await fetch(`https://pokedex-alchemy.herokuapp.com/api/pokedex?pokemon=${event.queryStringParameters.searchFilter}`);
     console.log(event.queryStringParameters);
     const data = await response.json();
     const json = JSON.stringify({ data });
@@ -21,7 +22,7 @@ exports.handler = async (event, context) => {
       body: json
     };
   } catch (error) {
-    console.log(error);
+    console.log(error, 't');
     return {
       statusCode: 500,
       body: JSON.stringify({ error: 'Failed fetching data' }),
