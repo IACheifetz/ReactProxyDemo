@@ -5,7 +5,7 @@ import { getPokemon } from './services/fetch-utils';
 
 function App() {
   const [pokemon, setPokemon] = useState([]);
-  const [search, setSearch] = useState('test');
+  const [search, setSearch] = useState('char');
 
   async function load() {
     const data = getPokemon(search);
@@ -15,31 +15,28 @@ function App() {
 
   useEffect(() => {
     load();
-    // eslint-disable-next-line
-  }, []); // eslint-disable-next-line
+  }, []); // eslint-disable-line
 
+  async function handleSearch(e) {
+    e.preventDefault();
 
+    load();
+  }
 
 
 
   return (
     <div className="App">
-      {/* <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header> */}
-
-  
+      <form onSubmit={handleSearch}>
+        <input onChange={e => setSearch(e.target.value)}/>
+        <button>Search</button>
+      </form>
+      <header className="App-header">
+        {pokemon.map(({ pokemon, weight }, i) => <div key={pokemon + i}>
+          <h2>{pokemon}</h2>
+          <p>weight: {weight}</p>
+        </div>)}
+      </header>
     </div>
   );
 }
